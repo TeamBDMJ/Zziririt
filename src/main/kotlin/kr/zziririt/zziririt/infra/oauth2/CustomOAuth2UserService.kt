@@ -20,29 +20,31 @@ class CustomOAuth2UserService(
 ) : DefaultOAuth2UserService() {
 
     @Throws(OAuth2AuthenticationException::class)
-    override fun loadUser(userRequest: OAuth2UserRequest) : OAuth2User {
+    override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
 
         val loadUser = super.loadUser(userRequest)
 
         return loadUser
     }
 
-    fun getAttribute(attribute: String, oAuth2User: OAuth2User) : String? {
+    fun getAttribute(attribute: String, oAuth2User: OAuth2User): String? {
         return (oAuth2User.attributes.get("response") as LinkedHashMap<String, String>).get(attribute)!!
     }
 
     @Transactional
-    fun login(oAuth2User: OAuth2User) : JwtDto {
+    fun login(oAuth2User: OAuth2User): JwtDto {
         val email = getAttribute("email", oAuth2User)!!
         val user = socialMemberRepository.findByEmail(email)
         if (user == null) {
-            socialMemberRepository.save(SocialMemberEntity(
-                email = email,
-                nickname = getAttribute("nickname", oAuth2User)!!,
-                providerId = getAttribute("id", oAuth2User)!!,
-                provider = OAuth2Provider.NAVER,
-                memberRole = MemberRole.VIEWER
-            ))
+            socialMemberRepository.save(
+                SocialMemberEntity(
+                    email = email,
+                    nickname = getAttribute("nickname", oAuth2User)!!,
+                    providerId = getAttribute("id", oAuth2User)!!,
+                    provider = OAuth2Provider.NAVER,
+                    memberRole = MemberRole.VIEWER
+                )
+            )
         }
         return jwtProvider.generateJwtDto(email)
     }

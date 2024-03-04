@@ -12,11 +12,11 @@ import java.security.Key
 import java.util.*
 
 @Component
-class JwtProvider (
+class JwtProvider(
     @Value("\${auth.jwt.issuer}") private val issuer: String,
     @Value("\${auth.jwt.secret}") private val secret: String,
-    @Value("\${auth.jwt.accessTokenExpirationHour}") private val accessTokenExpirationHour : Long,
-    @Value("\${auth.jwt.refreshTokenExpirationHour}") private val refreshTokenExpirationHour : Long,
+    @Value("\${auth.jwt.accessTokenExpirationHour}") private val accessTokenExpirationHour: Long,
+    @Value("\${auth.jwt.refreshTokenExpirationHour}") private val refreshTokenExpirationHour: Long,
 ) {
 
     companion object {
@@ -24,7 +24,7 @@ class JwtProvider (
     }
 
     private val key: Key by lazy {
-        val secretKey : String = secret
+        val secretKey: String = secret
         Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey))
     }
 
@@ -37,7 +37,8 @@ class JwtProvider (
                 .parseSignedClaims(jwt)
         }
     }
-    fun generateJwtDto(email: String) : JwtDto {
+
+    fun generateJwtDto(email: String): JwtDto {
         val now = Date().time
         val accessTokenExpiresIn = Date(now + accessTokenExpirationHour)
 
