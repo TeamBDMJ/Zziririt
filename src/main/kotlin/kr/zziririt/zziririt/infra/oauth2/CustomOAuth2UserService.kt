@@ -38,16 +38,9 @@ class CustomOAuth2UserService(
         if (user == null) {
             socialMemberRepository.save(SocialMemberEntity(
                 email = email,
-                name = getAttribute("name", oAuth2User)!!,
                 nickname = getAttribute("nickname", oAuth2User)!!,
-                profileImageUrl = getAttribute("profile_image", oAuth2User)!!,
                 providerId = getAttribute("id", oAuth2User)!!,
                 provider = OAuth2Provider.NAVER,
-                birthday = getAttribute("birthday", oAuth2User)!!,
-                age = getAttribute("age", oAuth2User)!!,
-                birthyear = getAttribute("birthyear", oAuth2User)!!,
-                gender = getAttribute("gender", oAuth2User)!!,
-                mobile = getAttribute("mobile", oAuth2User)!!,
                 memberRole = MemberRole.VIEWER
             ))
         }
