@@ -1,6 +1,5 @@
 package kr.zziririt.zziririt.global.config
 
-import kr.zziririt.zziririt.infra.security.UserPrincipal
 import org.springframework.data.domain.AuditorAware
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
@@ -17,7 +16,7 @@ class MemberAwareAudit : AuditorAware<Long> {
             return Optional.empty()
         }
 
-        return Optional.of((authentication.principal as UserPrincipal).id)
+        return Optional.of(11)
     }
 
 }

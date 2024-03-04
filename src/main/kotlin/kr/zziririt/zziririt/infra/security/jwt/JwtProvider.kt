@@ -16,7 +16,7 @@ class JwtProvider (
     @Value("\${auth.jwt.issuer}") private val issuer: String,
     @Value("\${auth.jwt.secret}") private val secret: String,
     @Value("\${auth.jwt.accessTokenExpirationHour}") private val accessTokenExpirationHour : Long,
-    @Value("\${auth.jwt.accessTokenExpirationHour}") private val refreshTokenExpirationHour : Long,
+    @Value("\${auth.jwt.refreshTokenExpirationHour}") private val refreshTokenExpirationHour : Long,
 ) {
 
     companion object {
@@ -31,8 +31,10 @@ class JwtProvider (
     fun validateToken(jwt: String): Result<Jws<Claims>> {
         return kotlin.runCatching {
             val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
-            Jwts.parser().verifyWith(key).build().parseSignedClaims(jwt)
-
+            Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(jwt)
         }
     }
     fun generateJwtDto(email: String) : JwtDto {
@@ -46,6 +48,7 @@ class JwtProvider (
             .compact()
 
         val refreshToken = Jwts.builder()
+            .subject(email)
             .expiration(Date(now + refreshTokenExpirationHour))
             .signWith(key)
             .compact()
@@ -57,4 +60,6 @@ class JwtProvider (
             accessTokenExpiresIn = accessTokenExpiresIn.time
         )
     }
+
+
 }
