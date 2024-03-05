@@ -1,4 +1,4 @@
-package kr.zziririt.zziririt.domain.post.model
+package kr.zziririt.zziririt.domain.board.model
 
 import jakarta.persistence.*
 import kr.zziririt.zziririt.domain.member.model.SocialMemberEntity
