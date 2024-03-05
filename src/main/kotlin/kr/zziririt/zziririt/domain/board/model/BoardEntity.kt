@@ -21,10 +21,6 @@ class BoardEntity(
 
     @Column(name = "board_name", nullable = false)
     var boardName: String,
-
-    // 나중에 누적 시청자 수로 스트리머 게시판 생성 허가하는 로직 때 사용하기
-    @Column
-    var accumulateCount: Int = 0
 ) : BaseEntity() {
 
     @Id

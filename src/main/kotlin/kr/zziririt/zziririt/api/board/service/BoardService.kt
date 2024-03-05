@@ -7,7 +7,6 @@ import kr.zziririt.zziririt.domain.board.repository.FavoriteBoardRepository
 import kr.zziririt.zziririt.domain.member.repository.SocialMemberRepository
 import kr.zziririt.zziririt.global.exception.ErrorCode
 import kr.zziririt.zziririt.global.exception.ModelNotFoundException
-import kr.zziririt.zziririt.global.exception.RestApiException
 import kr.zziririt.zziririt.infra.security.UserPrincipal
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -20,10 +19,6 @@ class BoardService(
     private val favoriteBoardRepository: FavoriteBoardRepository
 ) {
     fun createBoard(boardDto: BoardDto, userPrincipal: UserPrincipal) {
-        check(!boardRepository.existsBoardEntityByBoardName(boardName = boardDto.boardName)) {
-            RestApiException(ErrorCode.DUPLICATE_MODEL_NAME)
-        }
-
         val findSocialMember = socialMemberRepository.findByIdOrNull(userPrincipal.memberId)
             ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
