@@ -2,6 +2,8 @@ package kr.zziririt.zziririt.domain.member.model
 
 import jakarta.persistence.*
 import kr.zziririt.zziririt.global.entity.BaseTimeEntity
+import kr.zziririt.zziririt.global.exception.ErrorCode
+import kr.zziririt.zziririt.global.exception.RestApiException
 
 @Entity
 @Table(name = "social_member")
@@ -30,12 +32,23 @@ class SocialMemberEntity(
     @ElementCollection
     @CollectionTable(name = "member_subscriptions", joinColumns = [JoinColumn(name = "social_member_id")])
     @Column(name = "subscribe_board_id")
-    val subscribeBoardsList: MutableList<Long> = mutableListOf()
+    val subscribeBoardsList: MutableList<Long> = mutableListOf(),
+
+    @Column(name = "point", nullable = false)
+    var point: Long = 0L,
+
 
     ) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
+    init {
+        if (this.point < 0L) {
+            throw RestApiException(ErrorCode.POINT_POLICY_VIOLATION)
+        }
+        }
+
 
 
     fun toBoardManager() {
