@@ -12,4 +12,6 @@ interface BoardQueryDslRepository {
     fun findBoardStatusToInactive(): List<Long>
 
     fun updateBoardStatusToInactive(inactiveBoardIdList: List<Long>)
+
+    fun findActiveStatusBoards(pageable: Pageable): Page<BoardRowDto>
 }

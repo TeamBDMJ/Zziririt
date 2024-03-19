@@ -48,7 +48,7 @@ class BoardQueryDslRepositoryImpl : QueryDslSupport(), BoardQueryDslRepository {
             )
             .from(board)
             .where(board.parent.isNotNull)
-            .orderBy(board.id.asc())
+            .orderBy(board.parent.id.asc())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
             .fetch()
@@ -80,4 +80,25 @@ class BoardQueryDslRepositoryImpl : QueryDslSupport(), BoardQueryDslRepository {
             .execute()
     }
 
+    override fun findActiveStatusBoards(pageable: Pageable): Page<BoardRowDto> {
+        val content = queryFactory
+            .select(
+                QBoardRowDto(
+                    board.parent.id,
+                    board.id,
+                    board.boardName
+                )
+            ).from(board)
+            .where(board.boardActStatus.eq(BoardActStatus.ACTIVE))
+            .orderBy(board.parent.id.asc())
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetch()
+
+        val count = queryFactory.select(board.count())
+            .from(board)
+            .fetchOne() ?: 0L
+
+        return PageImpl(content, pageable, count)
+    }
 }

@@ -2,8 +2,8 @@ package kr.zziririt.zziririt.api.board.controller
 
 import jakarta.validation.Valid
 import kr.zziririt.zziririt.api.board.dto.BoardDto
-import kr.zziririt.zziririt.api.board.dto.SubscribeBoardDto
 import kr.zziririt.zziririt.api.board.dto.StreamerFormDto
+import kr.zziririt.zziririt.api.board.dto.SubscribeBoardDto
 import kr.zziririt.zziririt.api.board.service.BoardService
 import kr.zziririt.zziririt.api.dto.CommonResponse
 import kr.zziririt.zziririt.global.responseEntity
@@ -23,7 +23,6 @@ class BoardController(
     private val boardService: BoardService
 ) {
     @PostMapping("/apply")
-    @PreAuthorize("hasRole('STREAMER')")
     fun createStreamerApply(
         @RequestPart("image") multipartFile: List<MultipartFile>,
         @Valid @RequestPart streamerFormDto: StreamerFormDto,
@@ -34,7 +33,6 @@ class BoardController(
     }
 
     @PutMapping("/apply")
-    @PreAuthorize("hasRole('STREAMER')")
     fun updateStreamerApply(
         @RequestPart("image") multipartFile: List<MultipartFile>,
         @Valid @RequestPart streamerFormDto: StreamerFormDto,
@@ -108,6 +106,12 @@ class BoardController(
     fun getBoards(
         @PageableDefault(size = 60) pageable: Pageable
     ) = responseEntity(HttpStatus.OK) { boardService.getBoards(pageable) }
+
+
+    @GetMapping("/active")
+    fun getActiveStatusBoards(
+        @PageableDefault(size = 60) pageable: Pageable
+    ) = responseEntity(HttpStatus.OK) { boardService.getActiveStatusBoards(pageable) }
 
     @GetMapping("/streamer")
     fun getStreamers(

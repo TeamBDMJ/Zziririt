@@ -133,6 +133,10 @@ class BoardService(
         return boardRepository.findByPageable(pageable)
     }
 
+    fun getActiveStatusBoards(pageable: Pageable): Page<BoardRowDto> {
+        return boardRepository.findActiveStatusBoards(pageable)
+    }
+
     fun getStreamers(pageable: Pageable): Page<StreamerBoardRowDto> {
         return boardRepository.findStreamersByPageable(pageable)
     }
@@ -144,5 +148,4 @@ class BoardService(
 
         boardRepository.updateBoardStatusToInactive(inactiveBoardIdList)
     }
-
 }

@@ -35,4 +35,6 @@ class BoardRepositoryImpl(
     override fun findInactiveBoardStatus(): List<Long> = boardQueryDslRepositoryImpl.findBoardStatusToInactive()
 
     override fun updateBoardStatusToInactive(inactiveBoardId: List<Long>) = boardQueryDslRepositoryImpl.updateBoardStatusToInactive(inactiveBoardId)
+
+    override fun findActiveStatusBoards(pageable: Pageable): Page<BoardRowDto> = boardQueryDslRepositoryImpl.findActiveStatusBoards(pageable)
 }

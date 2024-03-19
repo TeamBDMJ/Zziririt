@@ -13,7 +13,7 @@ data class StreamerFormDto (
     val applyBoardName: String,
 ) {
     fun to(socialMemberEntity: SocialMemberEntity) = StreamerFormEntity(
-        applyUrl = "https://zrr.kr/${applyUrl}",
+        applyUrl = "https://zziririt.kr/${applyUrl}",
         applyBoardName = applyBoardName,
         socialMemberEntity = socialMemberEntity
     )
