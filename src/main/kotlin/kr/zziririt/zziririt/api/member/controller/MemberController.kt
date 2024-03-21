@@ -45,8 +45,4 @@ class MemberController(
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ) = responseEntity(HttpStatus.OK) { memberService.dismissBoardManager(request, userPrincipal) }
 
-    @GetMapping("/subscribe")
-    fun getSubscribeBoards(
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
-    ) = responseEntity(HttpStatus.OK) { memberService.getSubscribeByMember(userPrincipal) }
 }
