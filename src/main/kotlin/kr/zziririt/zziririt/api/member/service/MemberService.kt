@@ -2,21 +2,27 @@ package kr.zziririt.zziririt.api.member.service
 
 import jakarta.transaction.Transactional
 import kr.zziririt.zziririt.api.member.dto.request.AdjustRoleRequest
+import kr.zziririt.zziririt.api.member.dto.request.SelectMyIconRequest
 import kr.zziririt.zziririt.api.member.dto.request.SetBoardManagerRequest
 import kr.zziririt.zziririt.api.member.dto.response.GetMemberResponse
 import kr.zziririt.zziririt.domain.member.model.MemberRole
 import kr.zziririt.zziririt.domain.member.repository.LoginHistoryRepository
+import kr.zziririt.zziririt.domain.member.repository.MemberIconRepository
 import kr.zziririt.zziririt.domain.member.repository.SocialMemberRepository
 import kr.zziririt.zziririt.global.exception.ErrorCode
 import kr.zziririt.zziririt.global.exception.ModelNotFoundException
 import kr.zziririt.zziririt.global.exception.RestApiException
+import kr.zziririt.zziririt.infra.querydsl.member.dto.GetMyIconsDto
 import kr.zziririt.zziririt.infra.security.UserPrincipal
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
     private val memberRepository: SocialMemberRepository,
+    private val memberIconRepository: MemberIconRepository,
     private val loginHistoryRepository: LoginHistoryRepository
 ) {
 
@@ -81,6 +87,29 @@ class MemberService(
         val memberCheck = memberRepository.findByIdOrNull(userPrincipal.memberId) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
         return memberCheck.subscribeBoardsList.map { it }
+    }
+
+
+    fun getMyIcons(pageable: Pageable, userPrincipal: UserPrincipal) : PageImpl<GetMyIconsDto> {
+        memberRepository.findByIdOrNull(userPrincipal.memberId)
+            ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+
+        return memberIconRepository.getMyIcons(pageable)
+    }
+
+    @Transactional
+    fun selectMyIcon(userPrincipal: UserPrincipal, request: SelectMyIconRequest) {
+        val memberCheck = memberRepository.findByIdOrNull(userPrincipal.memberId)
+            ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+
+        val iconCheck = memberIconRepository.existsByMemberIdAndIconId(memberCheck.id!!, request.iconId)
+
+        check(iconCheck) {
+            throw RestApiException(ErrorCode.NOT_HAVE_ICON)
+        }
+
+        memberCheck.changeDefaultIcon(request.iconId)
+
     }
 
 }

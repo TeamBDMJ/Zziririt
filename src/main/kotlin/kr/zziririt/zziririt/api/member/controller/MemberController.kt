@@ -49,4 +49,20 @@ class MemberController(
     fun getSubscribeBoards(
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ) = responseEntity(HttpStatus.OK) { memberService.getSubscribeByMember(userPrincipal) }
+
+    @GetMapping("/myicon")
+    fun getMyIcons(
+        @PageableDefault(
+            size = 10,
+            sort = ["createdAt"]
+        ) pageable: Pageable,
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
+    ) = responseEntity(HttpStatus.OK) { memberService.getMyIcons(pageable, userPrincipal) }
+
+    @PutMapping("/iconselect")
+    fun selectDefaultIcon(
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @RequestBody request: SelectMyIconRequest,
+    ) = responseEntity(HttpStatus.OK) { memberService.selectMyIcon(userPrincipal, request)}
+
 }

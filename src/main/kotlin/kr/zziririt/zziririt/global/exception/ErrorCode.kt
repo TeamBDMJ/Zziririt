@@ -16,5 +16,12 @@ enum class ErrorCode(
     INVALID_TOKEN(9003, HttpStatus.UNAUTHORIZED, "JWT 검증에 실패하였습니다."),
     DUPLICATE_MODEL_NAME(9004, HttpStatus.BAD_REQUEST, "이미 존재하는 Model의 이름입니다."),
     DUPLICATE_ROLE(9005, HttpStatus.BAD_REQUEST, "동일한 등급으로 변경할 수 없습니다."),
-    POINT_POLICY_VIOLATION(9006, HttpStatus.BAD_REQUEST, "포인트는 0이상 이어야 합니다.")
+    POINT_POLICY_VIOLATION(9006, HttpStatus.BAD_REQUEST, "포인트는 0이상 이어야 합니다."),
+    ITEM_POLICY_VIOLATION(9007, HttpStatus.BAD_REQUEST, "개수는 0이상 이어야 합니다."),
+    DUPLICATE_ICON_ID(9008, HttpStatus.BAD_REQUEST, "이미 등록된 ICON입니다."),
+    NOT_ENOUGH_POINT(9009, HttpStatus.BAD_REQUEST, "포인트 잔액이 부족합니다."),
+    NOT_ENOUGH_ICONQUANTITY(9010, HttpStatus.BAD_REQUEST, "아이콘 잔여 개수가 부족합니다."),
+    NOT_FOR_SALE_STATUS(9011, HttpStatus.BAD_REQUEST, "아이콘이 판매중이 아닙니다."),
+    ALREADY_HAVE_ICON(9012, HttpStatus.BAD_REQUEST, "이미 해당 아이콘을 보유하고 있습니다."),
+    NOT_HAVE_ICON(9013, HttpStatus.BAD_REQUEST, "보유중인 아이콘이 아닙니다.")
 }

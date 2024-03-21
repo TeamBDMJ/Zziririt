@@ -37,6 +37,12 @@ class SocialMemberEntity(
     @Column(name = "point", nullable = false)
     var point: Long = 0L,
 
+    @Column(name = "default_icon", nullable = false)
+    var defaultIcon: Long = 1L,
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @Column(name = "member_icon")
+    val memberIcon: MutableList<MemberIconEntity> = mutableListOf(),
 
     ) : BaseTimeEntity() {
     @Id
@@ -47,8 +53,7 @@ class SocialMemberEntity(
         if (this.point < 0L) {
             throw RestApiException(ErrorCode.POINT_POLICY_VIOLATION)
         }
-        }
-
+    }
 
 
     fun toBoardManager() {
@@ -63,8 +68,23 @@ class SocialMemberEntity(
         this.memberStatus = MemberStatus.BANNED
     }
 
+    fun pointMinus(point: Long) {
+        this.point -= point
+    }
+
+    fun changeDefaultIcon(iconId: Long) {
+        this.defaultIcon = iconId
+    }
+
     companion object {
-        fun ofNaver(providerId: String, nickname: String, email:String, provider:String, memberRole: MemberRole, memberStatus: MemberStatus) : SocialMemberEntity {
+        fun ofNaver(
+            providerId: String,
+            nickname: String,
+            email: String,
+            provider: String,
+            memberRole: MemberRole,
+            memberStatus: MemberStatus
+        ): SocialMemberEntity {
             return SocialMemberEntity(
                 email = email,
                 nickname = nickname,
