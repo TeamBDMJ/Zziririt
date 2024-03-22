@@ -4,11 +4,11 @@ import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import kr.zziririt.zziririt.api.iconproduct.dto.IconSearchCondition
-import kr.zziririt.zziririt.domain.iconproduct.model.QIconShopEntity
+import kr.zziririt.zziririt.domain.iconproduct.model.QIconProductEntity
 import kr.zziririt.zziririt.domain.iconproduct.model.SaleStatus
 import kr.zziririt.zziririt.infra.querydsl.QueryDslSupport
 import kr.zziririt.zziririt.infra.querydsl.iconproduct.dto.IconProductRowDto
-import kr.zziririt.zziririt.infra.querydsl.iconproduct.dto.QIconShopRowDto
+import kr.zziririt.zziririt.infra.querydsl.iconproduct.dto.QIconProductRowDto
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class IconProductQueryDslRepositoryImpl : IconProductQueryDslRepository, QueryDslSupport() {
 
-    private val iconProduct = QIconShopEntity.iconShopEntity
+    private val iconProduct = QIconProductEntity.iconProductEntity
 
     override fun searchBy(condition: IconSearchCondition, pageable: Pageable): PageImpl<IconProductRowDto> {
         val statusCondition = iconProduct.saleStatus.`in`(
@@ -25,7 +25,7 @@ class IconProductQueryDslRepositoryImpl : IconProductQueryDslRepository, QueryDs
 
         val result = queryFactory
             .select(
-                QIconShopRowDto(
+                QIconProductRowDto(
                     iconProduct.icon.id,
                     iconProduct.price,
                     iconProduct.iconQuantity,
@@ -67,9 +67,9 @@ class IconProductQueryDslRepositoryImpl : IconProductQueryDslRepository, QueryDs
             sort.mapNotNull { order ->
                 val direction = if (order.isAscending) Order.ASC else Order.DESC
                 when (order.property) {
-                    "price" -> OrderSpecifier(direction, QIconShopEntity.iconShopEntity.price)
-                    "iconQuantity" -> OrderSpecifier(direction, QIconShopEntity.iconShopEntity.iconQuantity)
-                    else -> OrderSpecifier(direction, QIconShopEntity.iconShopEntity.createdAt)
+                    "price" -> OrderSpecifier(direction, QIconProductEntity.iconProductEntity.price)
+                    "iconQuantity" -> OrderSpecifier(direction, QIconProductEntity.iconProductEntity.iconQuantity)
+                    else -> OrderSpecifier(direction, QIconProductEntity.iconProductEntity.createdAt)
                 }
             }.toTypedArray()
         } ?: arrayOf()
