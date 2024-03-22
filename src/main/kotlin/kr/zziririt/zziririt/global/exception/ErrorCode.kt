@@ -10,13 +10,13 @@ enum class ErrorCode(
     UNAUTHORIZED(1001, HttpStatus.UNAUTHORIZED, "해당 API에 대한 권한이 없습니다."),
 
     POINT_POLICY_VIOLATION(4001, HttpStatus.BAD_REQUEST, "포인트는 0이상 이어야 합니다."),
+    NOT_ENOUGH_POINT(4002, HttpStatus.BAD_REQUEST, "포인트 잔액이 부족합니다."),
 
     DUPLICATE_ICON_ID(5001, HttpStatus.BAD_REQUEST, "이미 등록된 ICON입니다."),
-    NOT_ENOUGH_POINT(5002, HttpStatus.BAD_REQUEST, "포인트 잔액이 부족합니다."),
-    NOT_ENOUGH_ICONQUANTITY(5003, HttpStatus.BAD_REQUEST, "아이콘 잔여 개수가 부족합니다."),
-    NOT_FOR_SALE_STATUS(5004, HttpStatus.BAD_REQUEST, "아이콘이 판매중이 아닙니다."),
-    ALREADY_HAVE_ICON(5005, HttpStatus.BAD_REQUEST, "이미 해당 아이콘을 보유하고 있습니다."),
-    NOT_HAVE_ICON(5006, HttpStatus.BAD_REQUEST, "보유중인 아이콘이 아닙니다."),
+    NOT_ENOUGH_ICONQUANTITY(5002, HttpStatus.BAD_REQUEST, "아이콘 잔여 개수가 부족합니다."),
+    NOT_FOR_SALE_STATUS(5003, HttpStatus.BAD_REQUEST, "아이콘이 판매중이 아닙니다."),
+    ALREADY_HAVE_ICON(5004, HttpStatus.BAD_REQUEST, "이미 해당 아이콘을 보유하고 있습니다."),
+    NOT_HAVE_ICON(5005, HttpStatus.BAD_REQUEST, "보유중인 아이콘이 아닙니다."),
 
     NOT_IMAGE_FILE_EXTENSION(6101, HttpStatus.BAD_REQUEST, "png, jpeg, jpg 파일만 업로드 가능합니다."),
 
