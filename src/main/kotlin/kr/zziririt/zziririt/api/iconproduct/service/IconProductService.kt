@@ -51,7 +51,7 @@ class IconProductService(
     }
 
     @Transactional
-    fun iconProductDelete(iconProductId: Long) {
+    fun deleteIconProduct(iconProductId: Long) {
         val iconProductCheck =
             iconProductRepository.findByIdOrNull(iconProductId) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 

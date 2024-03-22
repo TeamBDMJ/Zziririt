@@ -32,9 +32,9 @@ class IconProductController(
     ) = responseEntity(HttpStatus.OK) { iconProductService.changeStatus(iconProductId, request) }
 
     @DeleteMapping("/{iconProductId}")
-    fun iconProductDelete(
+    fun deleteIconProduct(
         @PathVariable iconProductId: Long,
-    ) = responseEntity(HttpStatus.OK) { iconProductService.iconProductDelete(iconProductId) }
+    ) = responseEntity(HttpStatus.OK) { iconProductService.deleteIconProduct(iconProductId) }
 
     @GetMapping("/{iconProductId}")
     fun getIconProduct(
