@@ -155,12 +155,17 @@ class BoardService(
         boardRepository.updateBoardStatusToInactive(inactiveBoardIdList)
     }
 
-    fun createStreamerBoard(streamerBoardRequest: StreamerBoardRequest, userPrincipal: UserPrincipal) {
+    @Transactional
+    fun createStreamerBoard(streamerBoardRequest: StreamerBoardRequest) {
         val boardOwner = socialMemberRepository.findByIdOrNull(streamerBoardRequest.boardOwnerId)
             ?: throw RestApiException(ErrorCode.MODEL_NOT_FOUND)
 
-        boardRepository.save(streamerBoardRequest.to(boardOwner))
+        val findStreamerBoardApplication =
+            streamerBoardApplicationRepository.findByIdOrNull(streamerBoardRequest.streamerApplicationId)
+                ?: throw RestApiException(ErrorCode.MODEL_NOT_FOUND)
 
+        findStreamerBoardApplication.updateApplicationStatus(streamerBoardRequest.streamerBoardApplicationStatus)
+        boardRepository.save(streamerBoardRequest.to(boardOwner))
     }
 
     fun getChildBoards(boardId: Long): List<ChildBoardRowDto> {
