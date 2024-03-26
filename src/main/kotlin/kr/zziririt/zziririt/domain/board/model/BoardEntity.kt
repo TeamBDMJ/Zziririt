@@ -16,8 +16,8 @@ class BoardEntity(
     val parent: BoardEntity? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "social_member_id", nullable = true)
-    val socialMember: SocialMemberEntity? = null,
+    @JoinColumn(name = "social_member_id", nullable = false)
+    var socialMember: SocialMemberEntity,
 
     @Column(name = "board_name", nullable = false)
     var boardName: String,
@@ -38,7 +38,8 @@ class BoardEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    fun update(boardName: String) {
+    fun update(boardName: String, socialMember: SocialMemberEntity) {
         this.boardName = boardName
+        this.socialMember = socialMember
     }
 }
