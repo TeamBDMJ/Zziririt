@@ -67,36 +67,26 @@ class BoardService(
         findStreamerForm.uploadImage(imageUrl.toString())
     }
 
-    fun createBoard(boardRequest: BoardRequest, userPrincipal: UserPrincipal) {
-        val findSocialMember = socialMemberRepository.findByIdOrNull(userPrincipal.memberId)
-            ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
-
-        boardRepository.save(boardRequest.to(socialMemberEntity = findSocialMember, parent = null))
+    fun createBoard(boardRequest: BoardRequest) {
+        boardRepository.save(boardRequest.to(socialMemberEntity = null, parent = null))
     }
 
-    fun createChildBoard(boardId: Long, boardRequest: BoardRequest, userPrincipal: UserPrincipal) {
-        val findSocialMember = socialMemberRepository.findByIdOrNull(userPrincipal.memberId)
-            ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+    fun createChildBoard(boardId: Long, boardRequest: BoardRequest) {
         val findParentBoard =
             boardRepository.findByIdOrNull(boardId) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
-        boardRepository.save(boardRequest.to(socialMemberEntity = findSocialMember, parent = findParentBoard))
+        boardRepository.save(boardRequest.to(socialMemberEntity = null, parent = findParentBoard))
     }
 
     @Transactional
-    fun updateBoard(boardId: Long, boardRequest: BoardRequest, userPrincipal: UserPrincipal) {
-        socialMemberRepository.findByIdOrNull(userPrincipal.memberId)
-            ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+    fun updateBoard(boardId: Long, boardRequest: BoardRequest) {
         val findBoard =
             boardRepository.findByIdOrNull(boardId) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
         findBoard.update(boardName = boardRequest.boardName)
-
     }
 
-    fun deleteBoard(boardId: Long, userPrincipal: UserPrincipal) {
-        socialMemberRepository.findByIdOrNull(userPrincipal.memberId)
-            ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
+    fun deleteBoard(boardId: Long) {
         val findBoard =
             boardRepository.findByIdOrNull(boardId) ?: throw ModelNotFoundException(ErrorCode.MODEL_NOT_FOUND)
 
@@ -151,10 +141,10 @@ class BoardService(
         boardRepository.updateBoardStatusToInactive(inactiveBoardIdList)
     }
 
-    fun createStreamerBoard(streamerBoardRequest: StreamerBoardRequest, userPrincipal: UserPrincipal) {
-        val findMember = socialMemberRepository.findByIdOrNull(userPrincipal.memberId) ?: throw RestApiException(ErrorCode.MODEL_NOT_FOUND)
+    fun createStreamerBoard(streamerBoardRequest: StreamerBoardRequest) {
+        val boardOwner = socialMemberRepository.findByIdOrNull(streamerBoardRequest.boardOwnerId) ?: throw RestApiException(ErrorCode.MODEL_NOT_FOUND)
 
-        boardRepository.save(streamerBoardRequest.to(findMember))
+        boardRepository.save(streamerBoardRequest.to(boardOwner))
 
     }
 

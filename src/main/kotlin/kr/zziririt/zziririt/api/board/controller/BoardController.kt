@@ -46,20 +46,18 @@ class BoardController(
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     fun createBoard(
-        @Valid @RequestBody boardRequest: BoardRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+        @Valid @RequestBody boardRequest: BoardRequest
     ): ResponseEntity<CommonResponse<Nothing>> {
-        boardService.createBoard(boardRequest, userPrincipal)
+        boardService.createBoard(boardRequest)
         return responseEntity(HttpStatus.CREATED)
     }
 
     @PostMapping("/streamer")
     @PreAuthorize("hasRole('ADMIN')")
     fun createStreamerBoard(
-        @Valid @RequestBody streamerBoardRequest: StreamerBoardRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+        @Valid @RequestBody streamerBoardRequest: StreamerBoardRequest
     ): ResponseEntity<CommonResponse<Nothing>> {
-        boardService.createStreamerBoard(streamerBoardRequest, userPrincipal)
+        boardService.createStreamerBoard(streamerBoardRequest)
         return responseEntity(HttpStatus.CREATED)
     }
 
@@ -68,9 +66,8 @@ class BoardController(
     fun createChildBoard(
         @PathVariable boardId: Long,
         @Valid @RequestBody boardRequest: BoardRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<CommonResponse<Nothing>> {
-        boardService.createChildBoard(boardId, boardRequest, userPrincipal)
+        boardService.createChildBoard(boardId, boardRequest)
         return responseEntity(HttpStatus.CREATED)
     }
 
@@ -78,20 +75,18 @@ class BoardController(
     @PreAuthorize("hasRole('ADMIN')")
     fun updateBoard(
         @PathVariable boardId: Long,
-        @Valid @RequestBody boardRequest: BoardRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+        @Valid @RequestBody boardRequest: BoardRequest
     ): ResponseEntity<CommonResponse<Nothing>> {
-        boardService.updateBoard(boardId, boardRequest, userPrincipal)
+        boardService.updateBoard(boardId, boardRequest)
         return responseEntity(HttpStatus.OK)
     }
 
     @DeleteMapping("/{boardId}")
     @PreAuthorize("hasRole('ADMIN')")
     fun deleteBoard(
-        @PathVariable boardId: Long,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+        @PathVariable boardId: Long
     ): ResponseEntity<CommonResponse<Nothing>> {
-        boardService.deleteBoard(boardId, userPrincipal)
+        boardService.deleteBoard(boardId)
         return responseEntity(HttpStatus.NO_CONTENT)
     }
 

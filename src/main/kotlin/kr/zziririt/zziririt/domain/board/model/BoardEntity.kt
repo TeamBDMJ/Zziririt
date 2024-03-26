@@ -16,8 +16,8 @@ class BoardEntity(
     val parent: BoardEntity? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "social_member_id", nullable = false)
-    val socialMember: SocialMemberEntity,
+    @JoinColumn(name = "social_member_id", nullable = true)
+    val socialMember: SocialMemberEntity? = null,
 
     @Column(name = "board_name", nullable = false)
     var boardName: String,

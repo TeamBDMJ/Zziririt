@@ -13,7 +13,7 @@ data class BoardRequest (
     @field:NotBlank
     val boardUrl: String,
 ) {
-    fun to(socialMemberEntity: SocialMemberEntity, parent: BoardEntity?) = BoardEntity(
+    fun to(socialMemberEntity: SocialMemberEntity?, parent: BoardEntity?) = BoardEntity(
         boardName = boardName,
         socialMember = socialMemberEntity,
         parent = parent,
