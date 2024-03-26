@@ -10,7 +10,7 @@ data class CreateFaqRequest(
     var question: String,
 
     @field:NotBlank(message = "내용을 작성해주세요.")
-    @field:Size(min = 1, max = 1000, message = "글자수는 1000자를 초과할 수 없습니다.")
+    @field:Size(min = 1, max = 5000, message = "글자수는 5000자를 초과할 수 없습니다.")
     var answer: String,
 ) {
     fun toFaqEntity() = FaqEntity(
