@@ -14,6 +14,7 @@ import kr.zziririt.zziririt.domain.member.model.*
 import kr.zziririt.zziririt.domain.member.repository.LoginHistoryRepository
 import kr.zziririt.zziririt.domain.member.repository.MemberIconRepository
 import kr.zziririt.zziririt.domain.member.repository.SocialMemberRepository
+import kr.zziririt.zziririt.domain.report.repository.BannedHistoryRepository
 import kr.zziririt.zziririt.global.exception.ModelNotFoundException
 import kr.zziririt.zziririt.global.exception.RestApiException
 import kr.zziririt.zziririt.infra.security.UserPrincipal
@@ -42,7 +43,8 @@ class MemberServiceTest() : BehaviorSpec({
     val memberRepository = mockk<SocialMemberRepository>()
     val memberIconRepository = mockk<MemberIconRepository>()
     val loginHistoryRepository = mockk<LoginHistoryRepository>()
-    val memberService = MemberService(memberRepository, memberIconRepository, loginHistoryRepository)
+    val bannedHistoryRepository = mockk<BannedHistoryRepository>()
+    val memberService = MemberService(memberRepository, memberIconRepository, loginHistoryRepository, bannedHistoryRepository)
 
     val userPrincipal = UserPrincipal(1L, "email", roles = setOf(MemberRole.ADMIN.name), "providerId")
 
